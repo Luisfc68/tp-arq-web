@@ -1,0 +1,25 @@
+{
+  "name": "tp-arquitectura-web",
+  "version": "1.0.0",
+  "description": "Trabajo practico de la marteria arquitectura web (primer cuatrimestre 2022)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Luisfc68/tp-arq-web.git"
+  },
+  "keywords": [
+    "express",
+    "arq-web",
+    "up",
+    "rest"
+  ],
+  "author": "Luis Chavez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Luisfc68/tp-arq-web/issues"
+  },
+  "homepage": "https://github.com/Luisfc68/tp-arq-web#readme"
+}
