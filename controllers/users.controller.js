@@ -1,16 +1,14 @@
-const { createHash } = require('crypto');
 const { User } = require('../models/user');
+const { hash, getToken} = require('../utils/authHelper');
 const { Types } = require('mongoose');
 const { APIError } = require('../utils/APIError')
 const { ERROR_MESSAGES } = require('../utils/constants');
-const hash = createHash('sha256');
 
 const singUp = function (req, res, next) {
     const { username, password, email } = req.body;
-    hash.update(password);
     const newUser = new User({
         username,
-        password: hash.copy().digest('hex'),
+        password: hash(password),
         email,
         balance: 100
     });
@@ -19,7 +17,7 @@ const singUp = function (req, res, next) {
     .then(() => User.find({ email }).exec())
     .then(userDocument => {
         if (userDocument.length) {
-            throw new APIError(409, { error: ERROR_MESSAGES.UNIQUE_EMAIL });
+            throw new APIError(409, ERROR_MESSAGES.UNIQUE_EMAIL);
         } else {
             return newUser.save();
         }
@@ -55,8 +53,24 @@ const getUsers = function (req, res, next) {
         .catch(next);
 }
 
+const login = function (req, res, next) {
+    const { email, password } = req.body;
+    if (!email) {
+        throw new APIError(401);
+    }
+    User.find( { email })
+        .then(users => {
+            if (!users || users[0].password !== hash(password)) {
+                throw new APIError(401, ERROR_MESSAGES.BAD_CREDENTIALS);
+            }
+            const token = getToken(users[0].id);
+            res.json({ token });
+        });
+}
+
 module.exports = {
     singUp,
     getUser,
-    getUsers
+    getUsers,
+    login
 }

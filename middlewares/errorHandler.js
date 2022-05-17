@@ -1,7 +1,7 @@
 const errorHandler = function (err, req, res, next) {
     if (err.name === 'APIError') {
         res.status(err.status);
-        err.error? res.json(err.error) : res.send();
+        err.error? res.json({ error: err.error }) : res.send();
     } else if (err.name === 'ValidationError') {
         for (let prop in err.errors) {
             err.errors[prop] = err.errors[prop].message;

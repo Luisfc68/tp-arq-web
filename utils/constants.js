@@ -2,7 +2,8 @@ const EMAIL_REGEX = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|
 const ERROR_MESSAGES = {
     BAD_FORMAT: 'Invalid field format',
     MANDATORY: 'Its a mandatory field',
-    UNIQUE_EMAIL: 'There is already a user with that email'
+    UNIQUE_EMAIL: 'There is already a user with that email',
+    BAD_CREDENTIALS: 'Invalid credentials'
 }
 
 module.exports = {
