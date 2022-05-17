@@ -1,22 +1,31 @@
 const logger = require('consola');
 const express = require('express');
+const mongoose = require('mongoose');
 
-const loggingMiddleware = require("./middlewares/logger");
+const expressConfig = require('./configs/express.config');
+const mongoConfig = require('./configs/mongo.config');
+
+const loggingMiddleware = require('./middlewares/logger');
+const { errorHandler } = require('./middlewares/errorHandler');
+
+const usersRouter = require('./routes/users.routes');
 
 const app = express();
-const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(loggingMiddleware);
 
+// controllers
+app.use(usersRouter);
+app.use(errorHandler);
 
-
-app.use((err, req, res, next) => {
-    res.status(500).json({
-        error: err.message
-    });
+mongoose.connect(mongoConfig.getDbUri(), (error) => {
+    if(error) {
+        logger.error(`Error conecting to database ${error}`)
+        return;
+    }
+    logger.start(`Conected to database ${mongoConfig.name}`);
+    app.listen(expressConfig.port, () => {
+        logger.start(`Server started on port ${expressConfig.port}`);
+    })
 });
-
-app.listen(PORT, () => {
-    logger.start(`Servidor iniciado en ${PORT}`);
-})
