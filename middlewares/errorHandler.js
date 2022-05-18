@@ -1,3 +1,5 @@
+const { ERROR_MESSAGES } = require("../utils/constants");
+
 const errorHandler = function (err, req, res, next) {
     if (err.name === 'APIError') {
         res.status(err.status);
@@ -7,6 +9,8 @@ const errorHandler = function (err, req, res, next) {
             err.errors[prop] = err.errors[prop].message;
         }
         res.status(400).json(err.errors);
+    } else if (err.name === 'TypeError') {
+        res.status(400).json({ error: ERROR_MESSAGES.BAD_FORMAT });
     } else {
         res.status(err.statusCode || 500).json({ error: err.message });
     }

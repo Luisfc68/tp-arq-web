@@ -3,7 +3,8 @@ const ERROR_MESSAGES = {
     BAD_FORMAT: 'Invalid field format',
     MANDATORY: 'Its a mandatory field',
     UNIQUE_EMAIL: 'There is already a user with that email',
-    BAD_CREDENTIALS: 'Invalid credentials'
+    BAD_CREDENTIALS: 'Invalid credentials',
+    BAD_QUERY: 'Invalid value on query string'
 }
 const ROLES = {
     CLIENT: 'CLIENT',
