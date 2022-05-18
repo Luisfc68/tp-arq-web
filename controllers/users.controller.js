@@ -2,15 +2,17 @@ const { User } = require('../models/user');
 const { hash, getToken} = require('../utils/authHelper');
 const { Types } = require('mongoose');
 const { APIError } = require('../utils/APIError')
-const { ERROR_MESSAGES } = require('../utils/constants');
+const { ERROR_MESSAGES, ROLES } = require('../utils/constants');
 
 const singUp = function (req, res, next) {
     const { username, password, email } = req.body;
+    const { restaurant } = req.query;
     const newUser = new User({
         username,
         password: hash(password),
         email,
-        balance: 100
+        balance: 100,
+        role: restaurant? ROLES.RESTAURANT : ROLES.CLIENT
     });
 
     User.validate(newUser)
@@ -56,16 +58,17 @@ const getUsers = function (req, res, next) {
 const login = function (req, res, next) {
     const { email, password } = req.body;
     if (!email) {
-        throw new APIError(401);
+        throw new APIError(401, ERROR_MESSAGES.BAD_CREDENTIALS);
     }
     User.find( { email })
         .then(users => {
-            if (!users || users[0].password !== hash(password)) {
+            if (!users.length || users[0].password !== hash(password)) {
                 throw new APIError(401, ERROR_MESSAGES.BAD_CREDENTIALS);
             }
-            const token = getToken(users[0].id);
+            const token = getToken(users[0]);
             res.json({ token });
-        });
+        })
+        .catch(next);
 }
 
 module.exports = {

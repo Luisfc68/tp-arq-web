@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const { EMAIL_REGEX, ERROR_MESSAGES } = require('../utils/constants');
+const { EMAIL_REGEX, ERROR_MESSAGES, ROLES } = require('../utils/constants');
 
 const userSchema = new Schema(
     {
@@ -20,6 +20,10 @@ const userSchema = new Schema(
         password: {
             type: String,
             required: [true, ERROR_MESSAGES.MANDATORY],
+        },
+        role: {
+            type: String,
+            enum: Object.values(ROLES)
         }
     },
     {

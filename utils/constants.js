@@ -5,8 +5,13 @@ const ERROR_MESSAGES = {
     UNIQUE_EMAIL: 'There is already a user with that email',
     BAD_CREDENTIALS: 'Invalid credentials'
 }
+const ROLES = {
+    CLIENT: 'CLIENT',
+    RESTAURANT: 'RESTAURANT'
+}
 
 module.exports = {
     EMAIL_REGEX,
-    ERROR_MESSAGES
+    ERROR_MESSAGES,
+    ROLES: Object.freeze(ROLES)
 }

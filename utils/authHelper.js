@@ -1,18 +1,18 @@
 const { SECRET } = require('../configs/jwt.config');
 const { createHash } = require("crypto");
 const { sign, verify } = require('jsonwebtoken');
-const hashSha256 = createHash('sha256');
 
 const hash = (value) => {
-    hashSha256.update(value);
-    return hashSha256.copy().digest('hex');
+    return createHash('sha256')
+        .update(value)
+        .digest('hex');
 }
 
-const getToken = (userId) => {
+const getToken = (user) => {
     if (!SECRET) {
         return null;
     }
-    return sign({ id: userId }, SECRET, { expiresIn: '2h' });
+    return sign({ id: user.id, role: user.role }, SECRET, { expiresIn: '2h' });
 }
 
 const validateToken = (token, callback) => {
