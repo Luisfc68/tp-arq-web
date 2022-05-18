@@ -2,10 +2,10 @@
   "name": "tp-arquitectura-web",
   "version": "1.0.0",
   "description": "Trabajo practico de la marteria arquitectura web (primer cuatrimestre 2022)",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": " node -r dotenv/config app.js"
+    "dev": " node -r dotenv/config src/app.js"
   },
   "repository": {
     "type": "git",
