@@ -9,6 +9,7 @@ const loggingMiddleware = require('./middlewares/logger');
 const { errorHandler } = require('./middlewares/errorHandler');
 
 const usersRouter = require('./routes/users.routes');
+const restaurantsRouter = require('./routes/restaurant.routes');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(loggingMiddleware);
 
 // controllers
 app.use(usersRouter);
+app.use(restaurantsRouter);
 app.use(errorHandler);
 
 mongoose.connect(mongoConfig.getDbUri(), (error) => {

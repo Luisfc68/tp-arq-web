@@ -18,8 +18,9 @@ const singUp = function (req, res, next) {
         username,
         password: hash(password),
         email,
-        balance: 100,
-        role: isRestaurant? ROLES.RESTAURANT : ROLES.CLIENT
+        balance: isRestaurant? undefined : 100,
+        role: isRestaurant? ROLES.RESTAURANT : ROLES.CLIENT,
+        restaurants: isRestaurant? [] : undefined
     });
 
     User.validate(newUser)
@@ -52,14 +53,21 @@ const getUser = function (req, res, next) {
 }
 
 const getUsers = function (req, res, next) {
-    const { limit, offset } = req.query;
-    User.find()
-        .skip(offset)
-        .limit(limit)
-        .then(users => {
-            res.json(users);
-        })
-        .catch(next);
+    const limit = parseInt(req.query.limit);
+    const offset = parseInt(req.query.offset);
+
+    let query = User.find();
+
+    if (!isNaN(offset)) {
+        query = query.skip(offset);
+    }
+
+    if (!isNaN(limit)) {
+        query = query.limit(limit);
+    }
+
+    query.then(users => res.json(users))
+    .catch(next);
 }
 
 const login = function (req, res, next) {

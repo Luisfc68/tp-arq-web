@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const { EMAIL_REGEX, ERROR_MESSAGES, ROLES } = require('../utils/constants');
+const { restaurantSchema } = require('./restaurant');
 
 const userSchema = new Schema(
     {
@@ -13,10 +14,7 @@ const userSchema = new Schema(
             unique: true,
             match: [EMAIL_REGEX, ERROR_MESSAGES.BAD_FORMAT]
         },
-        balance: {
-            type: Number,
-            required: [true, ERROR_MESSAGES.MANDATORY],
-        },
+        balance: Number,
         password: {
             type: String,
             required: [true, ERROR_MESSAGES.MANDATORY],
@@ -24,6 +22,10 @@ const userSchema = new Schema(
         role: {
             type: String,
             enum: Object.values(ROLES)
+        },
+        restaurants: {
+            type: [restaurantSchema],
+            default: undefined
         }
     },
     {

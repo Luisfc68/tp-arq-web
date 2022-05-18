@@ -4,7 +4,8 @@ const ERROR_MESSAGES = {
     MANDATORY: 'Its a mandatory field',
     UNIQUE_EMAIL: 'There is already a user with that email',
     BAD_CREDENTIALS: 'Invalid credentials',
-    BAD_QUERY: 'Invalid value on query string'
+    BAD_QUERY: 'Invalid value on query string',
+    outOfRange: (min, max) => `Value is out of its allowed range [${min},${max}]`
 }
 const ROLES = {
     CLIENT: 'CLIENT',
