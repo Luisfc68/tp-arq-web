@@ -12,5 +12,6 @@ router.get(restaurantById, authMiddleware(ROLES.CLIENT), restaurantsController.g
 router.get(restaurants, authMiddleware(ROLES.CLIENT), restaurantsController.getRestaurants);
 router.put(restaurantById, authMiddleware(ROLES.RESTAURANT), restaurantsController.updateRestaurant);
 router.delete(restaurantById, authMiddleware(ROLES.RESTAURANT), restaurantsController.deleteRestaurant)
+router.get(restaurantById+'/meals', authMiddleware(ROLES.CLIENT, ROLES.RESTAURANT), restaurantsController.getRestaurantMeals);
 
 module.exports = router;

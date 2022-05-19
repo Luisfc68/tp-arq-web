@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const {ERROR_MESSAGES} = require("../utils/constants");
+const { ERROR_MESSAGES } = require('../utils/constants');
 
 const minimumRating = 0;
 const maximumRating = 5;
@@ -21,7 +21,8 @@ const restaurantSchema = new Schema({
         }
     },
     {
-        versionKey: false
+        versionKey: false,
+        autoCreate: false
     }
 );
 

@@ -2,7 +2,9 @@ const { Restaurant } = require('../models/restaurant');
 const { User } = require("../models/user");
 const { APIError } = require("../utils/APIError");
 const { Types } = require("mongoose");
-const { ROLES } = require("../utils/constants");
+const { ROLES, ERROR_MESSAGES} = require("../utils/constants");
+const { Meal } = require('../models/meal');
+const { optionalPagination } = require("../utils/paginationUtils");
 
 const createRestaurant = function (req, res, next) {
     const { id, rating, name, address } = req.body;
@@ -18,7 +20,7 @@ const createRestaurant = function (req, res, next) {
             owner.restaurants.push(newRestaurant);
             return owner.save();
         })
-        .then(() => res.json(newRestaurant))
+        .then(() => res.status(201).json(newRestaurant))
         .catch(next);
 
 }
@@ -130,10 +132,27 @@ const deleteRestaurant = function (req, res, next) {
         .catch(next);
 }
 
+const getRestaurantMeals = function (req, res, next) {
+    const restaurantId = req.params.restaurantId;
+
+    if (!Types.ObjectId.isValid(restaurantId)) {
+        throw new APIError(404);
+    }
+
+    const limit = parseInt(req.query.limit);
+    const offset = parseInt(req.query.offset);
+
+    let query = Meal.find({ restaurant: restaurantId });
+    optionalPagination(query, limit, offset)
+        .then(meals => res.json(meals))
+        .catch(next);
+}
+
 module.exports = {
     createRestaurant,
     getRestaurant,
     getRestaurants,
     updateRestaurant,
-    deleteRestaurant
+    deleteRestaurant,
+    getRestaurantMeals
 }

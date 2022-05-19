@@ -5,7 +5,9 @@ const ERROR_MESSAGES = {
     UNIQUE_EMAIL: 'There is already a user with that email',
     BAD_CREDENTIALS: 'Invalid credentials',
     BAD_QUERY: 'Invalid value on query string',
-    outOfRange: (min, max) => `Value is out of its allowed range [${min},${max}]`
+    outOfRange: (min, max) => `Value is out of its allowed range [${min},${max}]`,
+    minimum: min => `Value can't be lower than ${min}`,
+    notFound: (name) => `${name} not found`
 }
 const ROLES = {
     CLIENT: 'CLIENT',
