@@ -3,6 +3,7 @@ const { hash, getToken} = require('../utils/authHelper');
 const { Types } = require('mongoose');
 const { APIError } = require('../utils/APIError')
 const { ERROR_MESSAGES, ROLES } = require('../utils/constants');
+const { optionalPagination } = require("../utils/paginationUtils");
 
 const singUp = function (req, res, next) {
     let isRestaurant;
@@ -58,16 +59,9 @@ const getUsers = function (req, res, next) {
 
     let query = User.find();
 
-    if (!isNaN(offset)) {
-        query = query.skip(offset);
-    }
-
-    if (!isNaN(limit)) {
-        query = query.limit(limit);
-    }
-
-    query.then(users => res.json(users))
-    .catch(next);
+    optionalPagination(query, limit, offset)
+        .then(users => res.json(users))
+        .catch(next);
 }
 
 const login = function (req, res, next) {

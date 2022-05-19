@@ -2,7 +2,7 @@ const { Restaurant } = require('../models/restaurant');
 const { User } = require("../models/user");
 const { APIError } = require("../utils/APIError");
 const { Types } = require("mongoose");
-const { ROLES, ERROR_MESSAGES} = require("../utils/constants");
+const { ROLES } = require("../utils/constants");
 const { Meal } = require('../models/meal');
 const { optionalPagination } = require("../utils/paginationUtils");
 
@@ -56,20 +56,13 @@ const getRestaurants = function (req, res, next) {
         .unwind(restaurants)
         .replaceRoot(restaurants);
 
-    if (!isNaN(offset)) {
-        aggregation = aggregation.skip(offset);
-    }
-
-    if (!isNaN(limit)) {
-        aggregation = aggregation.limit(limit);
-    }
-
-    aggregation.then(aggregationResults => {
-        // esto es para ejecutar el toJSON sobre los aggregationResults
-        const restaurantDocuments = aggregationResults.map(aggregationResult => new Restaurant(aggregationResult));
-        res.json(restaurantDocuments);
-    })
-    .catch(next);
+    optionalPagination(aggregation, limit, offset)
+        .then(aggregationResults => {
+            // esto es para ejecutar el toJSON sobre los aggregationResults
+            const restaurantDocuments = aggregationResults.map(aggregationResult => new Restaurant(aggregationResult));
+            res.json(restaurantDocuments);
+        })
+        .catch(next);
 }
 
 const updateRestaurant = function (req, res, next) {
