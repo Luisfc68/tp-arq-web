@@ -3,8 +3,9 @@ const { User } = require('../models/user');
 const { APIError } = require("../utils/APIError");
 const { ERROR_MESSAGES } = require("../utils/constants");
 const { Types } = require("mongoose");
-const { save } = require("../utils/fileUtils");
+const { save, find } = require("../utils/fileUtils");
 const { singleImageMulter } = require('../middlewares/multer');
+const path = require('path');
 
 const getUsersMeal = function (userId, mealId) {
     let meal;
@@ -93,8 +94,22 @@ const postMealImage = function (req, res, next) {
     });
 }
 
+const getMealImage = function (req, res, next) {
+    const mealId = req.params.mealId;
+    const root = path.join(path.resolve('.'), `/public/images/meals`);
+    find(root, mealId)
+        .then(fileName => {
+            if (!fileName) {
+                throw new APIError(404);
+            }
+            res.sendFile(fileName, { root }, () => res.status(404).send());
+        })
+        .catch(next);
+}
+
 module.exports = {
     createMeal,
     getMeal,
-    postMealImage
+    postMealImage,
+    getMealImage
 }
