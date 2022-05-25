@@ -3,12 +3,15 @@ const { User } = require('../models/user');
 const { APIError } = require("../utils/APIError");
 const { ERROR_MESSAGES } = require("../utils/constants");
 const { Types } = require("mongoose");
-const { save, find } = require("../utils/fileUtils");
+const { save, find, remove } = require("../utils/fileUtils");
 const { singleImageMulter } = require('../middlewares/multer');
 const path = require('path');
 
 const getUsersMeal = function (userId, mealId) {
     let meal;
+    if (!Types.ObjectId.isValid(userId) || !Types.ObjectId.isValid(mealId)) {
+        return Promise.reject(new APIError(404));
+    }
     return Meal.findById(mealId)
         .then(mealDocument => {
             if (mealDocument) {
@@ -107,9 +110,51 @@ const getMealImage = function (req, res, next) {
         .catch(next);
 }
 
+const updateMeal = function (req, res, next) {
+    const mealId = req.params.mealId;
+    const userId = req.body.id;
+    const { name, description, price, restaurant } = req.body;
+
+    Meal.validate({ name, description, price, restaurant })
+        .then(() => getUsersMeal(userId, mealId))
+        .then(() => Meal.findByIdAndUpdate(mealId, { name, description, price, restaurant }))
+        .then(result => {
+            if(result) {
+                res.status(204).send();
+            } else {
+                res.status(404).send();
+            }
+        })
+        .catch(next);
+}
+
+const deleteMeal = function (req, res, next) {
+    const mealId = req.params.mealId;
+    const userId = req.body.id;
+    let removedMeal, imagePath;
+    getUsersMeal(userId, mealId)
+        .then(meal => {
+            removedMeal = meal;
+            return meal.remove();
+        })
+        .then(isRemoved => {
+            if (isRemoved) {
+                imagePath = path.join(path.resolve('.'), `/public/images/meals`);
+                return find(imagePath, mealId);
+            } else {
+                throw new APIError(409);
+            }
+        })
+        .then(mealImageName => mealImageName? remove(imagePath, mealImageName) : null)
+        .then(() => res.json(removedMeal))
+        .catch(next);
+}
+
 module.exports = {
     createMeal,
     getMeal,
     postMealImage,
-    getMealImage
+    getMealImage,
+    updateMeal,
+    deleteMeal
 }
