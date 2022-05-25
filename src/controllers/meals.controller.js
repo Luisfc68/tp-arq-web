@@ -5,6 +5,7 @@ const { ERROR_MESSAGES } = require("../utils/constants");
 const { Types } = require("mongoose");
 const { singleImageMulter } = require('../middlewares/multer');
 const localImageService = require('../utils/localImageService');
+const { optionalPagination } = require("../utils/paginationUtils");
 
 const getUsersMeal = function (userId, mealId) {
     let meal;
@@ -146,11 +147,68 @@ const deleteMeal = function (req, res, next) {
         .catch(next);
 }
 
+const mealQuery = function (req, res, next) {
+    const sortCriteria = {
+        PRICE_DESC: '-price',
+        PRICE_ASC: 'price',
+        NAME_DESC: '-name',
+        NAME_ASC: 'name'
+    }
+    const {
+        namePattern,
+        descriptionPattern,
+        restaurant,
+        sort
+    } = req.query;
+    let {
+        maxPrice,
+        minPrice,
+        limit,
+        offset,
+    } = req.query;
+
+    maxPrice = parseFloat(maxPrice) || null;
+    minPrice = parseFloat(minPrice) || null;
+    limit = parseInt(limit) || null;
+    offset = parseInt(offset) || null;
+
+    const query = Meal.find();
+
+    if (maxPrice && minPrice) {
+        query.where('price').gte(minPrice).lte(maxPrice);
+    } else if (maxPrice) {
+        query.where('price').lte(maxPrice);
+    } else if (minPrice) {
+        query.where('price').gte(minPrice);
+    }
+
+    if (namePattern) {
+        query.where({ name:  { $regex: namePattern, $options: "i" } });
+    }
+
+    if (descriptionPattern) {
+        query.where({ description:  { $regex: descriptionPattern, $options: "i" } });
+    }
+
+    if (restaurant) {
+        query.where({ restaurant });
+    }
+
+    if(sortCriteria[sort]) {
+        query.sort(sortCriteria[sort]);
+    }
+
+    optionalPagination(query, limit, offset)
+        .then(meals => res.json(meals))
+        .catch(next);
+}
+
 module.exports = {
     createMeal,
     getMeal,
     postMealImage,
     getMealImage,
     updateMeal,
-    deleteMeal
+    deleteMeal,
+    mealQuery
 }

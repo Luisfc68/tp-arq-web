@@ -14,5 +14,6 @@ router.put(mealImage, authMiddleware(ROLES.RESTAURANT), mealsController.postMeal
 router.get(mealImage, mealsController.getMealImage);
 router.put(mealById, authMiddleware(ROLES.RESTAURANT), mealsController.updateMeal);
 router.delete(mealById, authMiddleware(ROLES.RESTAURANT), mealsController.deleteMeal);
+router.get(meals, authMiddleware(ROLES.CLIENT), mealsController.mealQuery);
 
 module.exports = router;
