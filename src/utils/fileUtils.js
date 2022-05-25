@@ -10,7 +10,7 @@ const find = (directory, name) => {
         .then(files => files.filter(file => file.startsWith(name))[0]);
 }
 
-const remove = (path, file) => fs.unlink(`${path}/${file}`);
+const remove = (path, file) => file? fs.unlink(`${path}/${file}`) : fs.unlink(path);
 
 module.exports = {
     save,

@@ -3,9 +3,8 @@ const { User } = require('../models/user');
 const { APIError } = require("../utils/APIError");
 const { ERROR_MESSAGES } = require("../utils/constants");
 const { Types } = require("mongoose");
-const { save, find, remove } = require("../utils/fileUtils");
 const { singleImageMulter } = require('../middlewares/multer');
-const path = require('path');
+const localImageService = require('../utils/localImageService');
 
 const getUsersMeal = function (userId, mealId) {
     let meal;
@@ -90,7 +89,7 @@ const postMealImage = function (req, res, next) {
             .then(() => {
                 const imageName = req.file.originalname;
                 const imageExtension = imageName.substring(imageName.lastIndexOf('.'));
-                return save(`/public/images/meals/${mealId}${imageExtension}`, req.file.buffer);
+                return localImageService.meals.saveImage(mealId+imageExtension, req.file.buffer);
             })
             .then(() => res.status(204).send())
             .catch(next);
@@ -99,13 +98,12 @@ const postMealImage = function (req, res, next) {
 
 const getMealImage = function (req, res, next) {
     const mealId = req.params.mealId;
-    const root = path.join(path.resolve('.'), `/public/images/meals`);
-    find(root, mealId)
+    localImageService.meals.getImage(mealId)
         .then(fileName => {
             if (!fileName) {
                 throw new APIError(404);
             }
-            res.sendFile(fileName, { root }, () => res.status(404).send());
+            res.sendFile(fileName, () => res.status(404).send());
         })
         .catch(next);
 }
@@ -131,7 +129,7 @@ const updateMeal = function (req, res, next) {
 const deleteMeal = function (req, res, next) {
     const mealId = req.params.mealId;
     const userId = req.body.id;
-    let removedMeal, imagePath;
+    let removedMeal;
     getUsersMeal(userId, mealId)
         .then(meal => {
             removedMeal = meal;
@@ -139,13 +137,11 @@ const deleteMeal = function (req, res, next) {
         })
         .then(isRemoved => {
             if (isRemoved) {
-                imagePath = path.join(path.resolve('.'), `/public/images/meals`);
-                return find(imagePath, mealId);
+                return localImageService.meals.deleteImage(mealId);
             } else {
                 throw new APIError(409);
             }
         })
-        .then(mealImageName => mealImageName? remove(imagePath, mealImageName) : null)
         .then(() => res.json(removedMeal))
         .catch(next);
 }
