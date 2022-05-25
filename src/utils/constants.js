@@ -7,7 +7,8 @@ const ERROR_MESSAGES = {
     BAD_QUERY: 'Invalid value on query string',
     outOfRange: (min, max) => `Value is out of its allowed range [${min},${max}]`,
     minimum: min => `Value can't be lower than ${min}`,
-    notFound: (name) => `${name} not found`
+    notFound: (name) => `${name} not found`,
+    RESTAURANT_OWNER: 'Restaurant does not belong to user'
 }
 const ROLES = {
     CLIENT: 'CLIENT',

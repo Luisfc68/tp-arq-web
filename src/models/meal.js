@@ -31,12 +31,9 @@ const mealSchema = new Schema(
 mealSchema.set('toJSON',{
     transform: (document, object) => {
         object.id = document.id;
+        object.image = `/meals/${document.id}/image`;
         delete object._id;
     }
-});
-
-mealSchema.virtual('image').get(function() {
-    return `/meals/${this.id}/image`;
 });
 
 const Meal = model('Meal', mealSchema);
