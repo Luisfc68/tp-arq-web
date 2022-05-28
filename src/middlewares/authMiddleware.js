@@ -3,6 +3,9 @@ const { APIError } = require("../utils/APIError");
 const authMiddleware = function (...roles) {
     return function (req, res, next) {
         let token = req.get('Authorization');
+        if (!token) {
+            throw new APIError(401);
+        }
         token = token.replace('Bearer ', '');
         validateToken(token, (err, decoded) => {
             if (err) {

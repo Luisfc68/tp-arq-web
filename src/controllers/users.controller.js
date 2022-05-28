@@ -66,8 +66,11 @@ const getUsers = function (req, res, next) {
 
 const login = function (req, res, next) {
     const { email, password } = req.body;
-    if (!email) {
-        throw new APIError(401, ERROR_MESSAGES.BAD_CREDENTIALS);
+    if (!email || !password) {
+        throw new APIError(400, {
+            email: email? ERROR_MESSAGES.MANDATORY : undefined,
+            password: password? ERROR_MESSAGES.MANDATORY : undefined
+        });
     }
     User.find( { email })
         .then(users => {
@@ -82,7 +85,9 @@ const login = function (req, res, next) {
 
 const updateUser = function (req, res, next) {
     const { email, username, password, id } = req.body;
-    User.findByIdAndUpdate(id, { email, username, password: hash(password) }, { runValidators: true })
+    const update = { email, username, password: hash(password) };
+    User.validate(update)
+        .then(() => User.findByIdAndUpdate(id, update))
         .then(result => {
             if(result) {
                 res.status(204).send();
@@ -108,7 +113,7 @@ const deleteUser = function (req, res, next) {
 
 const addMoneyToAccount = function (req, res, next) {
     const { id, amount } = req.body;
-    if(isNaN(amount)) {
+    if(isNaN(amount) || amount <= 0) {
         throw new APIError(400, ERROR_MESSAGES.BAD_FORMAT);
     }
 
