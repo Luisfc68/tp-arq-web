@@ -8,7 +8,9 @@ const ERROR_MESSAGES = {
     outOfRange: (min, max) => `Value is out of its allowed range [${min},${max}]`,
     minimum: min => `Value can't be lower than ${min}`,
     notFound: (name) => `${name} not found`,
-    RESTAURANT_OWNER: 'Restaurant does not belong to user'
+    RESTAURANT_OWNER: 'Restaurant does not belong to user',
+    notAvailable: items => `There is no stock for the following items ${items.join(', ')}`,
+    NO_MONEY: 'Not enough money'
 }
 const ROLES = {
     CLIENT: 'CLIENT',

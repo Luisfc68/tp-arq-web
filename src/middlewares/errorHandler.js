@@ -6,7 +6,7 @@ const errorHandler = function (err, req, res, next) {
         err.error? res.json({ error: err.error }) : res.send();
     } else if (err.name === 'ValidationError') {
         for (let prop in err.errors) {
-            err.errors[prop] = err.errors[prop].message;
+            err.errors[prop] = err.errors[prop].message || ERROR_MESSAGES.MANDATORY;
         }
         res.status(400).json(err.errors);
     } else if (err.name === 'TypeError') {
