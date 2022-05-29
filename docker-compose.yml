@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  app:
+    env_file: .env
+    container_name: app
+    ports:
+      - "${PORT}:${PORT}"
+    image: tp-arq-web
+    build: .
+    depends_on:
+      - db
+    volumes:
+      - ./public:/home/node/app/public
+
+  db:
+    container_name: db
+    image: mongo:5.0.3-focal
+    volumes:
+      - ./data:/data/db
+
+networks:
+  app-net:
