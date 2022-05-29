@@ -5,3 +5,5 @@ node_modules/
 /public/**
 !/public/**/
 !/public/**/.gitkeep
+data/**
+!data/.gitkeep
