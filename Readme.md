@@ -19,3 +19,15 @@ Para levantar este proyecto hay que realizar los siguientes pasos:
 3. Ejecutar `npm install`
 4. Ejecutar `npm start`
 
+* NOTA: en este caso los requerimientos son tener instalados node, npm y mongodb
+
+### Levantar el proyecto con Docker
+Este proyecto trae un docker-compose para que no sea necesario tener node y mongodb instalados, para levantar el proyecto usando docker hay que seguir los siguientes pasos:
+1. Clonar este repositorio
+2. Crear un archivo .env a la misma altura del package.json con las siguientes variables:
+   - PORT: puerto al que va a escuchar la aplicaión. Por defecto 8080.
+   - JWT_SECRET: secreto para firmar los json web tokens. No hay valor por defecto, es obligatorio
+3. Ejecutar `docker-compose build`
+4. Ejecutar `docker-compose up`
+
+* NOTA: en este caso los requerimientos son tener instalados docker y docker-compose
