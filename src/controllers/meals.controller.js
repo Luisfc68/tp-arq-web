@@ -27,7 +27,7 @@ const getUsersMeal = function (userId, mealId) {
             const isUsersRestaurant = user.restaurants
                 .some(restaurant => restaurant.id === meal.restaurant.toString());
             if(isUsersRestaurant) {
-                return meal;
+                return { meal, user };
             } else {
                 throw new APIError(409, ERROR_MESSAGES.RESTAURANT_OWNER);
             }
@@ -71,7 +71,7 @@ const getMeal = function (req, res, next) {
             if (meal) {
                 res.json(meal);
             } else {
-                new APIError(404);
+                throw new APIError(404);
             }
         })
         .catch(next);
@@ -82,7 +82,10 @@ const postMealImage = function (req, res, next) {
     const mealId = req.params.mealId;
     const userId = req.body.id;
     imageMulter(req, res, (err) => {
-        if (err) {
+        if (err && err.status) {
+            next(err);
+            return;
+        } else if (err) {
             next(new APIError(400, ERROR_MESSAGES.notFound('Image field')));
             return;
         }
@@ -116,7 +119,14 @@ const updateMeal = function (req, res, next) {
 
     Meal.validate({ name, description, price, restaurant })
         .then(() => getUsersMeal(userId, mealId))
-        .then(() => Meal.findByIdAndUpdate(mealId, { name, description, price, restaurant }))
+        .then(result => {
+            const isUsersRestaurant = result.user.restaurants
+                .some(usersRestaurant => usersRestaurant.id === restaurant);
+            if (!isUsersRestaurant) {
+                throw new APIError(409, ERROR_MESSAGES.RESTAURANT_OWNER);
+            }
+            return Meal.findByIdAndUpdate(mealId, { name, description, price, restaurant })
+        })
         .then(result => {
             if(result) {
                 res.status(204).send();
@@ -132,9 +142,9 @@ const deleteMeal = function (req, res, next) {
     const userId = req.body.id;
     let removedMeal;
     getUsersMeal(userId, mealId)
-        .then(meal => {
-            removedMeal = meal;
-            return meal.remove();
+        .then(result => {
+            removedMeal = result.meal;
+            return result.meal.remove();
         })
         .then(isRemoved => {
             if (isRemoved) {
