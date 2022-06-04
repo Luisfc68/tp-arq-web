@@ -5,15 +5,8 @@ const { APIError } = require('../utils/APIError')
 const { ERROR_MESSAGES, ROLES } = require('../utils/constants');
 const { optionalPagination } = require("../utils/paginationUtils");
 
-const singUp = function (req, res, next) {
-    let isRestaurant;
+const singUp = function (req, res, next, isRestaurant) {
     const { username, password, email } = req.body;
-
-    try {
-        isRestaurant = JSON.parse(req.query.restaurant);
-    } catch (err) {
-        throw new APIError(400, ERROR_MESSAGES.BAD_QUERY);
-    }
 
     const newUser = new User({
         username,
@@ -35,6 +28,14 @@ const singUp = function (req, res, next) {
     })
     .then(savedUser => res.status(201).json(savedUser))
     .catch(next);
+}
+
+const singUpClient = function (req, res, next) {
+    singUp(req, res, next, false);
+}
+
+const singUpRestaurant = function (req, res, next) {
+    singUp(req, res, next, true);
 }
 
 const getUser = function (req, res, next) {
@@ -131,7 +132,8 @@ const addMoneyToAccount = function (req, res, next) {
 }
 
 module.exports = {
-    singUp,
+    singUpRestaurant,
+    singUpClient,
     getUser,
     getUsers,
     login,

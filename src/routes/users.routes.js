@@ -6,7 +6,8 @@ const { ROLES } = require('../utils/constants');
 const router = Router();
 const users = '/users';
 
-router.post(users, userController.singUp);
+router.post(users+'/clients', userController.singUpClient);
+router.post(users+'/restaurants', userController.singUpRestaurant);
 router.get(users+'/:userId', authMiddleware(ROLES.CLIENT, ROLES.RESTAURANT), userController.getUser);
 router.get(users, authMiddleware(ROLES.CLIENT, ROLES.RESTAURANT), userController.getUsers);
 router.post(users+'/login', userController.login);
