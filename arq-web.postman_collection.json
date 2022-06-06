@@ -1,0 +1,4330 @@
+{
+	"info": {
+		"_postman_id": "654003d2-2a5f-48d2-a7fd-b6550a8fc666",
+		"name": "arq-web",
+		"description": "# TP arquitectura web\nEsta coleccion contiene las requests disponibles para cada una de las entidades que se utilizaron el el trabajo, estas son:\n- Usuarios\n- Restaurantes\n- Comidas \n- Ordenes\n\nTodas las peticiones requieren la atuenticación previa del usuario, para esto hay que obtener un token de autenticación haciendo un POST al endpoint `/users/login` para el cual hay que tener un usuario creado previamente con haciendo un POST al endpoint `/users`. Estos son los únicos dos endpoints públicos de la API (además de aquellos endpoints que involucren recuperar imágenes).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "User login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"client@fake.com\",\r\n    \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"login"
+							]
+						},
+						"description": "Esta petición sirve para obtener el token de autenticación y poder hacer peticiones al resto de endpoints."
+					},
+					"response": [
+						{
+							"name": "Successful login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"client@fake.com\",\r\n    \"password\": \"12345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "204"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"cc-UAsLm0FLl2uJCtPeHh6UN/SKAxc\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 19:37:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODUyN2Q2NzJmMDUyYzE0MmYzODc3YiIsInJvbGUiOiJDTElFTlQiLCJpYXQiOjE2NTM3NjY2NDIsImV4cCI6MTY1Mzc3Mzg0Mn0.2JGSUX9pIpCN3V_UhMbvrfdGHdJzp47LX3wz_jnfn9U\"\n}"
+						},
+						{
+							"name": "Failed Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"client@fake.com\",\r\n    \"password\": \"aaaaa\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-mRYQ6Yx/raK/ssDeWseqQCiH0yM\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 19:38:14 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Invalid credentials\"\n}"
+						},
+						{
+							"name": "Bad request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"client@fake.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b-6bO9e+ffRdscPk8Eo7nEq7jSy7o\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 19:46:03 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"email\": \"Its a mandatory field\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create user restaurant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"newrestaurant@example.com\",\r\n    \"username\": \"newrestaurant\",\r\n    \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/restaurants",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"restaurants"
+							]
+						},
+						"description": "Esta petición sirve para crear un usuario ya sea cliente o restaurante. Aparte de la de login esta es la única otra petición que se puede hacer sin autenticarse."
+					},
+					"response": [
+						{
+							"name": "Creating restaurant",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"newrestaurant@example.com\",\r\n    \"username\": \"newrestaurant\",\r\n    \"password\": \"12345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users/restaurants",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users",
+										"restaurants"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "134"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"86-lVm3Q3S8PTgTMqdhIIfKAgOMjtQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 19:53:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"username\": \"exampleRestaurant\",\n    \"email\": \"restaurant@example.com\",\n    \"role\": \"RESTAURANT\",\n    \"restaurants\": [],\n    \"id\": \"62927db3c92ce30bc2e7ff50\"\n}"
+						},
+						{
+							"name": "Bad request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"newrestaurant@example.com\",\r\n    \"password\": \"56789\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users/restaurants",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users",
+										"restaurants"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "36"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"24-6LPe+V7WxiLdDkHEaZ1qr6/f0vs\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 19:54:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"username\": \"Its a mandatory field\"\n}"
+						},
+						{
+							"name": "Invalid user",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"newrestaurant@example.com\",\r\n    \"username\": \"newrestaurant\",\r\n    \"password\": \"12345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users/restaurants",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users",
+										"restaurants"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "51"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"33-XIw/eJpuzdCbnSeWuyYet2J6VRU\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 19:55:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"There is already a user with that email\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create user client",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"newclient@example.com\",\r\n    \"username\": \"newclient\",\r\n    \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"clients"
+							]
+						},
+						"description": "Esta petición sirve para crear un usuario ya sea cliente o restaurante. Aparte de la de login esta es la única otra petición que se puede hacer sin autenticarse."
+					},
+					"response": [
+						{
+							"name": "Creating client",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"newclient@example.com\",\r\n    \"username\": \"newclient\",\r\n    \"password\": \"12345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users/clients",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users",
+										"clients"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "119"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"77-q0gFyjzAgn5jWL2uyHkwasnz18g\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 19:54:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"username\": \"exampleClient\",\n    \"email\": \"client@example.com\",\n    \"balance\": 100,\n    \"role\": \"CLIENT\",\n    \"id\": \"62927dd9c92ce30bc2e7ff53\"\n}"
+						},
+						{
+							"name": "Bad request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"newclient@example.com\",\r\n    \"password\": \"12345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users/clients",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users",
+										"clients"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "36"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"24-6LPe+V7WxiLdDkHEaZ1qr6/f0vs\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 19:54:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"username\": \"Its a mandatory field\"\n}"
+						},
+						{
+							"name": "Invalid user",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"newclient@example.com\",\r\n    \"username\": \"newclient\",\r\n    \"password\": \"12345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users/clients",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users",
+										"clients"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "51"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"33-XIw/eJpuzdCbnSeWuyYet2J6VRU\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 19:55:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"There is already a user with that email\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTI3ZGIzYzkyY2UzMGJjMmU3ZmY1MCIsInJvbGUiOiJSRVNUQVVSQU5UIiwiaWF0IjoxNjUzNzY4OTcwLCJleHAiOjE2NTM3NzYxNzB9.4wLmKJeCSciVCS-U_hZziDSbizDHBbX4M88fXqBdKdo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"restupdated@example.com\",\r\n    \"username\": \"updated-rest\",\r\n    \"password\": \"def\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						},
+						"description": "Petición para que un usuario actualice sus datos, el usuario a actualizar se determina a partir del token."
+					},
+					"response": [
+						{
+							"name": "Not authenticated",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"testupdated@fake.com\",\r\n    \"username\": 123,\r\n    \"password\": \"abc\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 20:07:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Successful update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"clientupdated@example.com\",\r\n    \"username\": \"updated-client\",\r\n    \"password\": \"abc\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 20:10:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Bad request",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"clientupdated@example.com\",\r\n    \"password\": \"abc\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "36"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"24-6LPe+V7WxiLdDkHEaZ1qr6/f0vs\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 20:15:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"username\": \"Its a mandatory field\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Add money",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODUyN2Q2NzJmMDUyYzE0MmYzODc3YiIsInJvbGUiOiJDTElFTlQiLCJpYXQiOjE2NTM3NjY2NDIsImV4cCI6MTY1Mzc3Mzg0Mn0.2JGSUX9pIpCN3V_UhMbvrfdGHdJzp47LX3wz_jnfn9U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						},
+						"description": "Petición para añadir más dinero a la cuenta de un cliente, el cliente a actualizar se determina a partir del token."
+					},
+					"response": [
+						{
+							"name": "Money added",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": 35.7\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "129"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"81-x0Me8QvhS172xgEqerlMF/X6Jf4\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 20:21:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"username\": \"updated-client\",\n    \"email\": \"clientupdated@example.com\",\n    \"balance\": 135.7,\n    \"role\": \"CLIENT\",\n    \"id\": \"62927dd9c92ce30bc2e7ff53\"\n}"
+						},
+						{
+							"name": "Invalid amount",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": -35.7\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "32"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"20-BVA/Os3Gkh2FrYHHomzagyF8fwI\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 20:23:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Invalid field format\"\n}"
+						},
+						{
+							"name": "Restaurant add's money",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": 123\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 20:24:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTI3ZGIzYzkyY2UzMGJjMmU3ZmY1MCIsInJvbGUiOiJSRVNUQVVSQU5UIiwiaWF0IjoxNjUzNzY5NDcxLCJleHAiOjE2NTM3NzY2NzF9.R6lMgY9iZrj2cBaM8LYlvXXoz-LaWCASDK5bjA9oHk0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "aaabbc"
+								}
+							]
+						},
+						"description": "Peticion para recuperar un usuario"
+					},
+					"response": [
+						{
+							"name": "User exists",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "62927dd9c92ce30bc2e7ff53"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "129"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"81-x0Me8QvhS172xgEqerlMF/X6Jf4\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 20:29:27 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"username\": \"updated-client\",\n    \"email\": \"clientupdated@example.com\",\n    \"balance\": 135.7,\n    \"role\": \"CLIENT\",\n    \"id\": \"62927dd9c92ce30bc2e7ff53\"\n}"
+						},
+						{
+							"name": "User does not exists",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "aaabbc"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 20:29:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTI3ZGIzYzkyY2UzMGJjMmU3ZmY1MCIsInJvbGUiOiJSRVNUQVVSQU5UIiwiaWF0IjoxNjUzNzY5NDcxLCJleHAiOjE2NTM3NzY2NzF9.R6lMgY9iZrj2cBaM8LYlvXXoz-LaWCASDK5bjA9oHk0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						},
+						"description": "Petición para borrar un usuario, el usuario se determina a partir del token."
+					},
+					"response": [
+						{
+							"name": "User deleted",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "130"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"82-k0qOn8KutN2PnCRBoXTeOxRQcgs\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 20:31:21 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"username\": \"updated-rest\",\n    \"email\": \"restupdated@example.com\",\n    \"role\": \"RESTAURANT\",\n    \"restaurants\": [],\n    \"id\": \"62927db3c92ce30bc2e7ff50\"\n}"
+						},
+						{
+							"name": "User does not exists",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 20:31:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get users list",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTI3ZGQ5YzkyY2UzMGJjMmU3ZmY1MyIsInJvbGUiOiJDTElFTlQiLCJpYXQiOjE2NTM3Njk5ODcsImV4cCI6MTY1Mzc3NzE4N30.QukbRUoyOEMJ4Hr68wMz6KM4sSXEi42zWQxws4cr7wk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users?limit=20&offset=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "20",
+									"description": "Cantidad máxima de usuarios a recuperar"
+								},
+								{
+									"key": "offset",
+									"value": "1",
+									"description": "Usuario a partir del cual recuperar"
+								}
+							]
+						},
+						"description": "Petición para recuperar una lista de usuarios"
+					},
+					"response": [
+						{
+							"name": "List retrieved",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/users?limit=10&offset=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10",
+											"description": "Cantidad máxima de usuarios a recuperar"
+										},
+										{
+											"key": "offset",
+											"value": "1",
+											"description": "Usuario a partir del cual recuperar"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "443"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1bb-gkKgvByV55pDs3pzaaFsmbCQvdU\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 May 2022 20:33:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"username\": \"client\",\n        \"email\": \"client@fake.com\",\n        \"balance\": 231,\n        \"role\": \"CLIENT\",\n        \"id\": \"628527d672f052c142f3877b\"\n    },\n    {\n        \"username\": \"restaurant2\",\n        \"email\": \"restaurant2@fake.com\",\n        \"role\": \"RESTAURANT\",\n        \"restaurants\": [\n            {\n                \"name\": \"res2\",\n                \"address\": \"add2\",\n                \"rating\": 5,\n                \"id\": \"62852d71732fffa6c04b4e62\"\n            }\n        ],\n        \"id\": \"62852d53732fffa6c04b4e5e\"\n    },\n    {\n        \"username\": \"updated-client\",\n        \"email\": \"clientupdated@example.com\",\n        \"balance\": 135.7,\n        \"role\": \"CLIENT\",\n        \"id\": \"62927dd9c92ce30bc2e7ff53\"\n    }\n]"
+						}
+					]
+				}
+			],
+			"description": "## Requests de la entidad usuarios"
+		},
+		{
+			"name": "restaurants",
+			"item": [
+				{
+					"name": "Create restaurant",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTJjY2NjOWUzYzkxMzQwYmZkMzcyYyIsInJvbGUiOiJSRVNUQVVSQU5UIiwiaWF0IjoxNjUzODAzMjc5LCJleHAiOjE2NTM4MTA0Nzl9.g6p6IL6Rcgez7J4_YfY5l_7uqCIWlzuDQrJsGvKb9GM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"test restaurant\",\r\n    \"address\": \"address\",\r\n    \"rating\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/restaurants",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurants"
+							]
+						},
+						"description": "Esta petición es para que un usuario cree un restaurante (el usuario debe tener el rol RESTAURANT)"
+					},
+					"response": [
+						{
+							"name": "Creating restaurant as client",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"res2\",\r\n    \"address\": \"add2\",\r\n    \"rating\": 5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/restaurants",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 01:28:28 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Creation successful",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"res2\",\r\n    \"address\": \"add2\",\r\n    \"rating\": 5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/restaurants",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "75"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4b-4DkPe0xvxOKfPcMzzKojG6g4Qi0\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 01:31:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"res2\",\n    \"address\": \"add2\",\n    \"rating\": 5,\n    \"id\": \"6292ccea9e3c91340bfd3730\"\n}"
+						},
+						{
+							"name": "Bad request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"res2\",\r\n    \"rating\": 5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/restaurants",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "35"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"23-hEdc+nDOy5g/LlTykr2ZGxc4z8E\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 01:31:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"address\": \"Its a mandatory field\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update restaurant",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTJjY2NjOWUzYzkxMzQwYmZkMzcyYyIsInJvbGUiOiJSRVNUQVVSQU5UIiwiaWF0IjoxNjUzNzg3ODcyLCJleHAiOjE2NTM3OTUwNzJ9.IIr-y0pNA8gAYjGkGka7dfjpQApHfaxYPrQ-3tvCe-o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"updated\",\r\n    \"address\": \"updated\",\r\n    \"rating\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/restaurants/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurants",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6292ccea9e3c91340bfd3730"
+								}
+							]
+						},
+						"description": "Esta petición es para que el usuario actualice los datos de un restaurante que le pertenece."
+					},
+					"response": [
+						{
+							"name": "Updating other user restaurant",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"updated\",\r\n    \"address\": \"updated\",\r\n    \"rating\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/restaurants/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "62852d71732fffa6c04b4e62"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 01:52:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Update successful",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"updated\",\r\n    \"address\": \"updated\",\r\n    \"rating\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/restaurants/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6292ccea9e3c91340bfd3730"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 02:26:49 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Invalid data",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"updated\",\r\n    \"address\": \"updated\",\r\n    \"rating\": 6\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/restaurants/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6292ccea9e3c91340bfd3730"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "52"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"34-omRNB1d6i/bbKnHsxbh9zC4lrdQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 02:27:59 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"rating\": \"Value is out of its allowed range [0,5]\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete restaurant",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTJjY2NjOWUzYzkxMzQwYmZkMzcyYyIsInJvbGUiOiJSRVNUQVVSQU5UIiwiaWF0IjoxNjUzNzg3ODcyLCJleHAiOjE2NTM3OTUwNzJ9.IIr-y0pNA8gAYjGkGka7dfjpQApHfaxYPrQ-3tvCe-o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/restaurants/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurants",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6292ccea9e3c91340bfd3730"
+								}
+							]
+						},
+						"description": "Esta petición es para que el usuario elimine un restaurante que le pertenece."
+					},
+					"response": [
+						{
+							"name": "Deleting other user restaurant",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/restaurants/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "62852d71732fffa6c04b4e62"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 02:49:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Successful deletion",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/restaurants/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6292ccea9e3c91340bfd3730"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "81"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"51-dC83by7hBb2FpvifzeOpGxtAGXc\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 02:57:57 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"updated\",\n    \"address\": \"updated\",\n    \"rating\": 5,\n    \"id\": \"6292ccea9e3c91340bfd3730\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get restaurant",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTI3ZGQ5YzkyY2UzMGJjMmU3ZmY1MyIsInJvbGUiOiJDTElFTlQiLCJpYXQiOjE2NTM3OTQxODIsImV4cCI6MTY1MzgwMTM4Mn0.0Fd-m7kFzJ4uEsp7jx0cykcpuWZzKhLMlx5JEPzwY5I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/restaurants/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurants",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "62852d71732fffa6c04b4e62"
+								}
+							]
+						},
+						"description": "Esta petición permite a un cliente recuperar los datos de un restaurante"
+					},
+					"response": [
+						{
+							"name": "Retrieving restaurant",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/restaurants/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "62852d71732fffa6c04b4e62"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "75"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4b-4JL+XB7tbHuFbp6MKuXkp06maKQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 03:34:05 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"res2\",\n    \"address\": \"add2\",\n    \"rating\": 5,\n    \"id\": \"62852d71732fffa6c04b4e62\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get restaurants list",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTI3ZGQ5YzkyY2UzMGJjMmU3ZmY1MyIsInJvbGUiOiJDTElFTlQiLCJpYXQiOjE2NTM3OTcyNzQsImV4cCI6MTY1MzgwNDQ3NH0.DDyN8rQT0Xg4Salw66vhTe9qGY5ZNcmBYZIIvM6qDuY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/restaurants?limit=10&offset=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurants"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Cantidad máxima de restaurantes a recuperar"
+								},
+								{
+									"key": "offset",
+									"value": "1",
+									"description": "Restaurante a partir del cual recuperar"
+								}
+							]
+						},
+						"description": "Esta petición permite a un cliente recuperar los datos de varios restaurantes"
+					},
+					"response": [
+						{
+							"name": "Retrieving restaurant list",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/restaurants?limit=10&offset=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10",
+											"description": "Cantidad máxima de restaurantes a recuperar"
+										},
+										{
+											"key": "offset",
+											"value": "1",
+											"description": "Restaurante a partir del cual recuperar"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "153"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"99-43gAbfcj1tPehYbt5stbMw9h7Co\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 04:09:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"name\": \"res1\",\n        \"address\": \"add1\",\n        \"rating\": 3,\n        \"id\": \"62852c53732fffa6c04b4e55\"\n    },\n    {\n        \"name\": \"res2\",\n        \"address\": \"add2\",\n        \"rating\": 5,\n        \"id\": \"62852d71732fffa6c04b4e62\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get restaurant meals list",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTI3ZGQ5YzkyY2UzMGJjMmU3ZmY1MyIsInJvbGUiOiJDTElFTlQiLCJpYXQiOjE2NTM3OTcyNzQsImV4cCI6MTY1MzgwNDQ3NH0.DDyN8rQT0Xg4Salw66vhTe9qGY5ZNcmBYZIIvM6qDuY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/restaurants/:id/meals?limit=10&offset=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurants",
+								":id",
+								"meals"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Cantidad máxima de platos a recuperar"
+								},
+								{
+									"key": "offset",
+									"value": "0",
+									"description": "Plato a partir del cual recuperar"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "62852c53732fffa6c04b4e55"
+								}
+							]
+						},
+						"description": "Esta petición permite a un cliente recuperar los datos de los platos de un restaurante"
+					},
+					"response": [
+						{
+							"name": "Retrieving restaurant's meal list",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/restaurants/:id/meals?limit=10&offset=0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"restaurants",
+										":id",
+										"meals"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "offset",
+											"value": "0"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "62852c53732fffa6c04b4e55"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "175"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"af-uGPWQ6okSWX05Ke8bO1IWqkbySs\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 04:17:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"name\": \"my mea2l\",\n        \"description\": \"updated\",\n        \"price\": 6,\n        \"restaurant\": \"62852c53732fffa6c04b4e55\",\n        \"id\": \"6285b1013bf47a3536c197cb\",\n        \"image\": \"/meals/6285b1013bf47a3536c197cb/image\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "meals",
+			"item": [
+				{
+					"name": "Create meal",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTJjY2NjOWUzYzkxMzQwYmZkMzcyYyIsInJvbGUiOiJSRVNUQVVSQU5UIiwiaWF0IjoxNjUzODA0NzEyLCJleHAiOjE2NTM4MTE5MTJ9.yABafTbz8FWwe86X15z3L63iqMf7ocmfEpl_KMuaocA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"restaurant\": \"62930984f89400f4b783ef7b\",\r\n    \"price\": 20,\r\n    \"name\": \"test meal\",\r\n    \"description\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/meals",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"meals"
+							]
+						},
+						"description": "Esta petición sirve para que un usuario de tipo restaurante cree un plato en un restaurante que le pertenece"
+					},
+					"response": [
+						{
+							"name": "Successful meal creation",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"restaurant\": \"62930984f89400f4b783ef7b\",\r\n    \"price\": 20,\r\n    \"name\": \"test meal\",\r\n    \"description\": \"test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/meals",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"meals"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "172"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ac-4LWW+fxUcX42Gg5ul7K3uDVtnUE\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 05:50:49 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"test meal\",\n    \"description\": \"test\",\n    \"price\": 20,\n    \"restaurant\": \"62930984f89400f4b783ef7b\",\n    \"id\": \"629309b9f89400f4b783ef7f\",\n    \"image\": \"/meals/629309b9f89400f4b783ef7f/image\"\n}"
+						},
+						{
+							"name": "Creating meal for other user's restaurant",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"restaurant\": \"62852879ce05acdb70148253\",\r\n    \"price\": 20,\r\n    \"name\": \"test meal\",\r\n    \"description\": \"test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/meals",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"meals"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "46"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2e-diWtOI14Qh7A8J9KpXeWUziyUn8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 05:54:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Restaurant does not belong to user\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get meal",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODUyN2Q2NzJmMDUyYzE0MmYzODc3YiIsInJvbGUiOiJDTElFTlQiLCJpYXQiOjE2NTM4MDc3MjcsImV4cCI6MTY1MzgxNDkyN30.BRoglf-gXUOb_dXshfpQkAyDkp55fnlBauB1qgTdDNo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/meals/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"meals",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6293101f5aab1c94fc13744b"
+								}
+							]
+						},
+						"description": "Esta petición sirve para que un usuario de tipo cliente recupere la información de un plato"
+					},
+					"response": [
+						{
+							"name": "Retrieve meal",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/meals/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"meals",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6293101f5aab1c94fc13744b"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "172"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ac-fzF/nvt/1sE7EZX6WpL/m1OKqh8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 07:02:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"my meal\",\n    \"description\": \"updated\",\n    \"price\": 6,\n    \"restaurant\": \"62852d71732fffa6c04b4e62\",\n    \"id\": \"6293101f5aab1c94fc13744b\",\n    \"image\": \"/meals/6293101f5aab1c94fc13744b/image\"\n}"
+						},
+						{
+							"name": "Unexisting meal",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/meals/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"meals",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "aaaaaabbbbbb"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 07:04:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete meal",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTJjY2NjOWUzYzkxMzQwYmZkMzcyYyIsInJvbGUiOiJSRVNUQVVSQU5UIiwiaWF0IjoxNjUzODUwNjMwLCJleHAiOjE2NTM4NTc4MzB9.NCachm7eVcF3sLbluXhwsdhRPXsFyXb0kzt0f6JgJOw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/meals/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"meals",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "abbbaaaaa"
+								}
+							]
+						},
+						"description": "Esta petición es para que un usuario de tipo restaurante borre un plato de un restaurante que le pertenece"
+					},
+					"response": [
+						{
+							"name": "Removing meal from other user restaurant",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/meals/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"meals",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6293101f5aab1c94fc13744b"
+										}
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "46"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2e-diWtOI14Qh7A8J9KpXeWUziyUn8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 18:58:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Restaurant does not belong to user\"\n}"
+						},
+						{
+							"name": "Successful removal",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/meals/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"meals",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "629314c3dde14d8b9f001c60"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "172"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ac-PvC3GlQ+CJU96iKby9XE2f9ney0\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 18:59:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"my meal\",\n    \"description\": \"updated\",\n    \"price\": 7,\n    \"restaurant\": \"62930984f89400f4b783ef7b\",\n    \"id\": \"629314c3dde14d8b9f001c60\",\n    \"image\": \"/meals/629314c3dde14d8b9f001c60/image\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Add meal image",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODUyN2NhNzJmMDUyYzE0MmYzODc3OCIsInJvbGUiOiJSRVNUQVVSQU5UIiwiaWF0IjoxNjUzODUxOTIyLCJleHAiOjE2NTM4NTkxMjJ9.KoF1KW_tzWck7_L_ZwKFCu10xdq_IYySANsJxhwhw2I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"description": "Imagen a subir de la comida",
+									"type": "file",
+									"src": "/D:/Descargas/4.jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/meals/:id/image",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"meals",
+								":id",
+								"image"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6285b1013bf47a3536c197cb"
+								}
+							]
+						},
+						"description": "Esta petición sirve para que un usuario te tipo restaurante agregue una imagen a un plato de un restaurante que le pertenece. Los mime type aceptados son image/jpeg y image/png"
+					},
+					"response": [
+						{
+							"name": "Bad request",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"description": "Imagen a subir de la comida",
+											"type": "file",
+											"src": "/D:/Descargas/4.jpeg"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/meals/:id/image",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"meals",
+										":id",
+										"image"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "629314c3dde14d8b9f001c60"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "33"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"21-wKB0ARmQibDcjK3LuqACIHMLVb4\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 06:58:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Image field not found\"\n}"
+						},
+						{
+							"name": "Image upload",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"description": "Imagen a subir de la comida",
+											"type": "file",
+											"src": "/D:/Descargas/4.jpeg"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/meals/:id/image",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"meals",
+										":id",
+										"image"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "629314c3dde14d8b9f001c60"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 06:59:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Invalid file",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"description": "Imagen a subir de la comida",
+											"type": "file",
+											"src": "/D:/Descargas/Caratula_TP_1.pdf"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/meals/:id/image",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"meals",
+										":id",
+										"image"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "629314c3dde14d8b9f001c60"
+										}
+									]
+								}
+							},
+							"status": "Unsupported Media Type",
+							"code": 415,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 19:22:51 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update meal",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTJjY2NjOWUzYzkxMzQwYmZkMzcyYyIsInJvbGUiOiJSRVNUQVVSQU5UIiwiaWF0IjoxNjUzODA0NzEyLCJleHAiOjE2NTM4MTE5MTJ9.yABafTbz8FWwe86X15z3L63iqMf7ocmfEpl_KMuaocA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"my meal\",\r\n    \"description\": \"updated\",\r\n    \"price\": 7,\r\n    \"restaurant\": \"62930984f89400f4b783ef7b\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/meals/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"meals",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "aaaaa"
+								}
+							]
+						},
+						"description": "Esta petición sirve para que un usuario de tipo restaurante actualice un plato en un restaurante que le pertenece"
+					},
+					"response": [
+						{
+							"name": "Successful update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"my meal\",\r\n    \"description\": \"updated\",\r\n    \"price\": 6,\r\n    \"restaurant\": \"62930984f89400f4b783ef7b\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/meals/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"meals",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "629309b9f89400f4b783ef7f"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 06:02:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Updating meal of other user's restaurant",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"my meal\",\r\n    \"description\": \"updated\",\r\n    \"price\": 6,\r\n    \"restaurant\": \"62852879ce05acdb70148253\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/meals/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"meals",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "629309b9f89400f4b783ef7f"
+										}
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "46"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2e-diWtOI14Qh7A8J9KpXeWUziyUn8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 06:04:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Restaurant does not belong to user\"\n}"
+						},
+						{
+							"name": "Unexisting meal",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"my meal\",\r\n    \"description\": \"updated\",\r\n    \"price\": 7,\r\n    \"restaurant\": \"62930984f89400f4b783ef7b\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/meals/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"meals",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "aaaaa"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 06:55:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get meals image",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTJjY2NjOWUzYzkxMzQwYmZkMzcyYyIsInJvbGUiOiJSRVNUQVVSQU5UIiwiaWF0IjoxNjUzODA3NDA3LCJleHAiOjE2NTM4MTQ2MDd9.e9ytrFzFQBVNz-0yBsMw51eFKLra9td4mVbt6ta-fos",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/meals/:id/image",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"meals",
+								":id",
+								"image"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "629314c3dde14d8b9f001c60"
+								}
+							]
+						},
+						"description": "Esta petición sirve para que un usuario recupere la imagen de un plato"
+					},
+					"response": []
+				},
+				{
+					"name": "Meals search",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODUyN2Q2NzJmMDUyYzE0MmYzODc3YiIsInJvbGUiOiJDTElFTlQiLCJpYXQiOjE2NTM4NTEwODUsImV4cCI6MTY1Mzg1ODI4NX0.YwPwLFsUWk6oYDKT0b6jw9Aa7Dqk4naM1rGgu6G9bP8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/meals?limit=3&offset=&minPrice=&maxPrice=&namePattern=&descriptionPatterns=&sort=PRICE_DESC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"meals"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "3",
+									"description": "Cantidad máxima de platos a recuperar"
+								},
+								{
+									"key": "offset",
+									"value": "",
+									"description": "Plato a partir del cual recuperar"
+								},
+								{
+									"key": "minPrice",
+									"value": "",
+									"description": "Precio mínimo de los platos a recuperar"
+								},
+								{
+									"key": "maxPrice",
+									"value": "",
+									"description": "Precio máximo de los platos a recuperar"
+								},
+								{
+									"key": "namePattern",
+									"value": "",
+									"description": "Texto a buscar en los nombres de los platos"
+								},
+								{
+									"key": "descriptionPatterns",
+									"value": "",
+									"description": "Texto a buscar en las descripciones de los platos"
+								},
+								{
+									"key": "sort",
+									"value": "PRICE_DESC",
+									"description": "Ordenamiento de los platos a recuperar, valores disponibles:  NAME_ASC, NAME_DESC, PRICE_ASC, PRICE_DESC"
+								}
+							]
+						},
+						"description": "Esta petición sirve para que un usuario de tipo cliente recupere un listado de platos con varios parámetros de búsqueda."
+					},
+					"response": [
+						{
+							"name": "Retrieving meal list",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/meals?limit=3&offset=&minPrice=&maxPrice=&namePattern=&descriptionPatterns=&sort=PRICE_DESC",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"meals"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "3",
+											"description": "Cantidad máxima de platos a recuperar"
+										},
+										{
+											"key": "offset",
+											"value": "",
+											"description": "Plato a partir del cual recuperar"
+										},
+										{
+											"key": "minPrice",
+											"value": "",
+											"description": "Precio mínimo de los platos a recuperar"
+										},
+										{
+											"key": "maxPrice",
+											"value": "",
+											"description": "Precio máximo de los platos a recuperar"
+										},
+										{
+											"key": "namePattern",
+											"value": "",
+											"description": "Texto a buscar en los nombres de los platos"
+										},
+										{
+											"key": "descriptionPatterns",
+											"value": "",
+											"description": "Texto a buscar en las descripciones de los platos"
+										},
+										{
+											"key": "sort",
+											"value": "PRICE_DESC",
+											"description": "Ordenamiento de los platos a recuperar, valores disponibles:  NAME_ASC, NAME_DESC, PRICE_ASC, PRICE_DESC"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "527"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"20f-DDCfp0hGo9+9t2ml9YVhUvXETA0\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 19:05:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"name\": \"test meal other\",\n        \"description\": \"test\",\n        \"price\": 20,\n        \"restaurant\": \"62852d71732fffa6c04b4e62\",\n        \"id\": \"62898ac9163ac30de74fdbe5\",\n        \"image\": \"/meals/62898ac9163ac30de74fdbe5/image\"\n    },\n    {\n        \"name\": \"my mea2l\",\n        \"description\": \"updated\",\n        \"price\": 6,\n        \"restaurant\": \"62852c53732fffa6c04b4e55\",\n        \"id\": \"6285b1013bf47a3536c197cb\",\n        \"image\": \"/meals/6285b1013bf47a3536c197cb/image\"\n    },\n    {\n        \"name\": \"my meal\",\n        \"description\": \"updated\",\n        \"price\": 6,\n        \"restaurant\": \"62852879ce05acdb70148253\",\n        \"id\": \"629309b9f89400f4b783ef7f\",\n        \"image\": \"/meals/629309b9f89400f4b783ef7f/image\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "Create order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODUyN2Q2NzJmMDUyYzE0MmYzODc3YiIsInJvbGUiOiJDTElFTlQiLCJpYXQiOjE2NTM4NTI0ODMsImV4cCI6MTY1Mzg1OTY4M30.unoQ-m-Uzkp30VkVVqux2YGg3LTfplS6IISg5qvvNbk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"items\": [\r\n        {\r\n            \"mealId\": \"62898ac9163ac30de74fdbe5\",\r\n            \"quantity\": 2\r\n        },\r\n        {\r\n            \"mealId\": \"6285b1013bf47a3536c197cb\",\r\n            \"quantity\": 1\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"orders"
+							]
+						},
+						"description": "Esta petición es para que un usuario de tipo cliente pueda hacer una orden. Debe contar con saldo suficiente."
+					},
+					"response": [
+						{
+							"name": "Order created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"items\": [\r\n        {\r\n            \"mealId\": \"62898ac9163ac30de74fdbe5\",\r\n            \"quantity\": 2\r\n        },\r\n        {\r\n            \"mealId\": \"6285b1013bf47a3536c197cb\",\r\n            \"quantity\": 1\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/orders",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "432"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1b0-vxYvut+rsmQ6fGNSdZd+nTUUYSM\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 19:29:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"items\": [\n        {\n            \"quantity\": 2,\n            \"meal\": {\n                \"id\": \"62898ac9163ac30de74fdbe5\",\n                \"name\": \"test meal other\",\n                \"description\": \"test\",\n                \"price\": 20,\n                \"image\": \"/meals/62898ac9163ac30de74fdbe5/image\"\n            },\n            \"subtotal\": 40\n        },\n        {\n            \"quantity\": 1,\n            \"meal\": {\n                \"id\": \"6285b1013bf47a3536c197cb\",\n                \"name\": \"my mea2l\",\n                \"description\": \"updated\",\n                \"price\": 6,\n                \"image\": \"/meals/6285b1013bf47a3536c197cb/image\"\n            },\n            \"subtotal\": 6\n        }\n    ],\n    \"user\": \"628527d672f052c142f3877b\",\n    \"id\": \"6293c982a37afc1f80122ffd\",\n    \"total\": 46\n}"
+						},
+						{
+							"name": "No money",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"items\": [\r\n        {\r\n            \"mealId\": \"62898ac9163ac30de74fdbe5\",\r\n            \"quantity\": 2\r\n        },\r\n        {\r\n            \"mealId\": \"6285b1013bf47a3536c197cb\",\r\n            \"quantity\": 1\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/orders",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1c-Gua0DXNSk6rYgoaokQqAZJP9QBk\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 19:29:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Not enough money\"\n}"
+						},
+						{
+							"name": "Invalid order",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"items\": [\r\n        {\r\n            \"mealId\": \"62898ac9163ac30de74fdbe5\",\r\n            \"quantity\": 2\r\n        },\r\n        {\r\n            \"mealId\": \"asddasdasda33421342a\",\r\n            \"quantity\": 1\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/orders",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "74"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4a-ay1Qkj4Eq8aAFKZH1GOTlQFNvII\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 19:30:08 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"There is no stock for the following items asddasdasda33421342a\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODUyN2Q2NzJmMDUyYzE0MmYzODc3YiIsInJvbGUiOiJDTElFTlQiLCJpYXQiOjE2NTM4NTI0ODMsImV4cCI6MTY1Mzg1OTY4M30.unoQ-m-Uzkp30VkVVqux2YGg3LTfplS6IISg5qvvNbk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/orders?limit=2&offset=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2",
+									"description": "Cantidad máxima de ordenes a recuperar"
+								},
+								{
+									"key": "offset",
+									"value": "1",
+									"description": "Orden a partir del cual recuperar"
+								}
+							]
+						},
+						"description": "Esta petición es para que el usuario pueda ver sus ordenes, el usuario se determina a través del token."
+					},
+					"response": [
+						{
+							"name": "Order list",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/orders?limit=2&offset=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"orders"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "2",
+											"description": "Cantidad máxima de ordenes a recuperar"
+										},
+										{
+											"key": "offset",
+											"value": "1",
+											"description": "Orden a partir del cual recuperar"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "867"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"363-jaL5rkjjf5VWOVJ4sEvFZFqYwT0\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 May 2022 19:32:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"items\": [\n            {\n                \"meal\": {\n                    \"id\": \"62898ac9163ac30de74fdbe5\",\n                    \"name\": \"test meal other\",\n                    \"description\": \"test\",\n                    \"price\": 20,\n                    \"image\": \"/meals/62898ac9163ac30de74fdbe5/image\"\n                },\n                \"quantity\": 2,\n                \"subtotal\": 40\n            },\n            {\n                \"meal\": {\n                    \"id\": \"6285b1013bf47a3536c197cb\",\n                    \"name\": \"my mea2l\",\n                    \"description\": \"updated\",\n                    \"price\": 6,\n                    \"image\": \"/meals/6285b1013bf47a3536c197cb/image\"\n                },\n                \"quantity\": 1,\n                \"subtotal\": 6\n            }\n        ],\n        \"user\": \"628527d672f052c142f3877b\",\n        \"id\": \"6293c982a37afc1f80122ffd\",\n        \"total\": 46\n    },\n    {\n        \"items\": [\n            {\n                \"meal\": {\n                    \"id\": \"62898ac9163ac30de74fdbe5\",\n                    \"name\": \"test meal other\",\n                    \"description\": \"test\",\n                    \"price\": 20,\n                    \"image\": \"/meals/62898ac9163ac30de74fdbe5/image\"\n                },\n                \"quantity\": 2,\n                \"subtotal\": 40\n            },\n            {\n                \"meal\": {\n                    \"id\": \"6285b1013bf47a3536c197cb\",\n                    \"name\": \"my mea2l\",\n                    \"description\": \"updated\",\n                    \"price\": 6,\n                    \"image\": \"/meals/6285b1013bf47a3536c197cb/image\"\n                },\n                \"quantity\": 1,\n                \"subtotal\": 6\n            }\n        ],\n        \"user\": \"628527d672f052c142f3877b\",\n        \"id\": \"6293c9a1a37afc1f80123003\",\n        \"total\": 46\n    }\n]"
+						}
+					]
+				}
+			]
+		}
+	]
+}
